@@ -1,21 +1,25 @@
 USE samplesdb;
 
-
 SELECT * FROM cars;
 SELECT * from dealerships;
 
+-- LEFT join on cars
 SELECT c.car_id as 'Car ID', c.name as carname, c.built_date as builtdate, d.dealership_id, d.location, d.car_id as 'Dealership Car ID'  
 FROM cars c
 INNER JOIN dealerships d
 ON c.car_id = d.car_id
 
+-- LEFT join on dealerships
 SELECT * 
 FROM dealerships d
 LEFT JOIN cars c
 ON d.car_id = c.car_id
 
-
 -- Find all dealerships that carry Jeeps - correlated subquery
+-- EXISTS:
+--	Subquery which gets executed for each row returned by outer select
+-- 	Returns true/false if a row is returned from subquery (again, for each row of outer query)
+-- In this example, we use a correlated subquery on dealership_id, otherwise a row is always returned for all dealerships
 SELECT d.dealership_id, d.location
 FROM dealerships d
 WHERE EXISTS
@@ -25,7 +29,6 @@ WHERE EXISTS
  	WHERE car_id = 3 AND dealership_id = d.dealership_id
 )
 GROUP BY d.dealership_id, d.location
-;
 
 -- Find all dealerships that don't carry Jeeps - simple subquery
 SELECT d.dealership_id, d.location
@@ -70,43 +73,4 @@ WHERE d.dealership_id = 30
 
 SELECT c.*, d.location
 FROM dealerships d
-LEFT JOIN cars c ON d.car_id = c.car_id AND d.car_id = 3;
-
-
-
-
-
-
--- JOINS --
-
-
-
--- Left outer join on Cars
-SELECT *  
-FROM cars c
-LEFT JOIN dealerships d 
-ON c.car_id = d.car_id
-ORDER BY c.car_id
-
-
-# Left outer join on Cars
-SELECT COUNT(*) FROM cars ;
-SELECT *
-FROM cars c
-LEFT JOIN dealerships d 
-ON c.car_id = d.car_id AND d.location = 'Dallas'
-
-
-# Left outer join on Dealerships
-SELECT * FROM dealerships;
-SELECT * 
-FROM dealerships d
-LEFT JOIN cars c
-ON d.car_id = c.car_id 
-
-
-# Left outer join on Dealerships
-SELECT * 
-FROM dealerships d
-LEFT JOIN cars c
-ON d.car_id = c.car_id AND d.location='Dallas'
+LEFT JOIN cars c ON d.car_id = c.car_id AND d.car_id = 3
