@@ -1,3 +1,6 @@
+USE samplesdb
+GO
+
 if not exists (select * from sysobjects where name='cars' and xtype='U')
     CREATE TABLE cars (
         car_id INT PRIMARY KEY,
@@ -6,7 +9,7 @@ if not exists (select * from sysobjects where name='cars' and xtype='U')
         num_doors INT NOT NULL,
         engine_type VARCHAR(10) NOT NULL
     )
-go
+GO
 
 if not exists (select * from sysobjects where name='dealerships' and xtype='U')
     CREATE TABLE dealerships (
@@ -14,7 +17,7 @@ if not exists (select * from sysobjects where name='dealerships' and xtype='U')
         car_id INT NOT NULL,
         location VARCHAR(50) NOT NULL
     )
-go
+GO
 
 INSERT INTO cars (car_id, name, built_date, num_doors, engine_type)
 VALUES
